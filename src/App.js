@@ -4,6 +4,7 @@ import TasksPage from './components/TasksPage';
 
 class App extends Component {
   render() {
+    console.log('props from App: ', this.props);
     return (
       <div className="main-content">
         <TasksPage tasks={this.props.tasks} />
