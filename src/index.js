@@ -25,6 +25,11 @@ if (module.hot) {
       </Provider>,
       document.getElementById('root'));
   });
+
+  module.hot.accept('./reducers', () => {
+    const nextRootReducer = require('./reducers').default;
+    store.replaceReducer(nextRootReducer);
+  });
 }
 
 // If you want your app to work offline and load faster, you can change
