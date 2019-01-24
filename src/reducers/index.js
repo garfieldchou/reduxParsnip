@@ -5,6 +5,12 @@ const initialState = {
 
 export default function tasks(state = initialState, action) {
   switch (action.type) {
+    case 'FETCH_TASKS_STARTED': {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
     case 'CREATE_TASK': {
       return {
         tasks: state.tasks.concat(action.payload),
