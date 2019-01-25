@@ -1,17 +1,12 @@
 import * as api from '../api';
 
-let _id = 1;
-export function uniqueId() {
-  return _id++;
-}
-
-export function fetchTasksSucceeded(tasks) {
+function fetchTasksSucceeded(tasks) {
   return {
     type: 'FETCH_TASKS_SUCCEEDED',
     payload: {
-      tasks
-    }
-  }
+      tasks,
+    },
+  };
 }
 
 function fetchTasksFailed(error) {
@@ -36,10 +31,7 @@ export function fetchTasks() {
     api
       .fetchTasks()
       .then(resp => {
-        // setTimeout(() => {
-        //   dispatch(fetchTasksSucceeded(resp.data));
-        // }, 2000);
-        throw new Error('Oh noes! Unable to fetch tasks!');
+        dispatch(fetchTasksSucceeded(resp.data));
       })
       .catch(err => {
         dispatch(fetchTasksFailed(err.message));
@@ -76,10 +68,9 @@ function editTaskSucceeded(task) {
 export function editTask(id, params = {}) {
   return (dispatch, getState) => {
     const task = getTaskById(getState().tasks.tasks, id);
-    const updatedTask = { ...task, ...params };
-
+    const updatedTask = Object.assign({}, task, params);
     api.editTask(id, updatedTask).then(resp => {
-      dispatch(editTaskSucceeded(resp.data))
+      dispatch(editTaskSucceeded(resp.data));
     });
   };
 }

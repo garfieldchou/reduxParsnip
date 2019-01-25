@@ -12,28 +12,11 @@ export default function tasks(state = initialState, action) {
         isLoading: true,
       };
     }
-    case 'CREATE_TASK': {
-      return {
-        tasks: state.tasks.concat(action.payload),
-      };
-    }
-    case 'EDIT_TASK': {
-      const { payload } = action;
-      return {
-        tasks: state.tasks.map(task => {
-          if (task.id === payload.id) {
-            return {...task, ...payload.params};
-          }
-
-          return task;
-        }),
-      };
-    }
     case 'FETCH_TASKS_SUCCEEDED': {
       return {
         ...state,
-        isLoading: false,
         tasks: action.payload.tasks,
+        isLoading: false,
       };
     }
     case 'FETCH_TASKS_FAILED': {

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import TaskList from './TaskList';
+
 import { TASK_STATUSES } from '../constants';
 
 class TasksPage extends Component {
-  state = {
-    showNewCardForm: false,
-    title: '',
-    description: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showNewCardForm: false,
+      title: '',
+      description: '',
+    };
+  }
 
   onTitleChange = e => {
     this.setState({ title: e.target.value });
@@ -21,7 +25,7 @@ class TasksPage extends Component {
     this.setState({
       showNewCardForm: false,
       title: '',
-      description: ''
+      description: '',
     });
   }
 
@@ -29,7 +33,7 @@ class TasksPage extends Component {
     e.preventDefault();
     this.props.onCreateTask({
       title: this.state.title,
-      description: this.state.description
+      description: this.state.description,
     });
     this.resetForm();
   };
@@ -37,21 +41,6 @@ class TasksPage extends Component {
   toggleForm = () => {
     this.setState({ showNewCardForm: !this.state.showNewCardForm });
   };
-
-  renderTaskLists() {
-    const { tasks } = this.props;
-    return TASK_STATUSES.map(status => {
-      const statusTasks = tasks.filter(task => task.status === status);
-      return (
-        <TaskList
-          key={status}
-          status={status}
-          tasks={statusTasks}
-          onStatusChange={this.props.onStatusChange}
-        />
-      );
-    });
-  }
 
   render() {
     if (this.props.isLoading) {
@@ -61,6 +50,7 @@ class TasksPage extends Component {
         </div>
       );
     }
+
     return (
       <div className="tasks">
         <div className="tasks-header">
@@ -68,7 +58,7 @@ class TasksPage extends Component {
             + New task
           </button>
         </div>
-        {this.state.showNewCardForm && (
+        {this.state.showNewCardForm &&
           <form className="new-task-form" onSubmit={this.onCreateTask}>
             <input
               className="full-width-input"
@@ -84,17 +74,24 @@ class TasksPage extends Component {
               type="text"
               placeholder="description"
             />
-            <button
-              className="button"
-              type="submit"
-            >
+            <button className="button" type="submit">
               Save
             </button>
-          </form>
-        )}
-
+          </form>}
         <div className="task-lists">
-          {this.renderTaskLists()}
+          {TASK_STATUSES.map(status => {
+            const statusTasks = this.props.tasks.filter(
+              task => task.status === status
+            );
+            return (
+              <TaskList
+                key={status}
+                status={status}
+                tasks={statusTasks}
+                onStatusChange={this.props.onStatusChange}
+              />
+            );
+          })}
         </div>
       </div>
     );

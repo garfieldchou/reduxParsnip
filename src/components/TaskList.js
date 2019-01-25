@@ -8,14 +8,10 @@ const TaskList = props => {
         <strong>{props.status}</strong>
       </div>
       {props.tasks.map(task => (
-        <Task
-          key={task.id}
-          task={task}
-          onStatusChange={props.onStatusChange}
-        />
+        <Task key={task.id} task={task} onStatusChange={props.onStatusChange} />
       ))}
     </div>
   );
-}
+};
 
 export default TaskList;

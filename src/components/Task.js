@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { TASK_STATUSES } from '../constants';
 
 const Task = props => {
@@ -20,6 +21,6 @@ const Task = props => {
   function onStatusChange(e) {
     props.onStatusChange(props.task.id, e.target.value);
   }
-}
+};
 
 export default Task;
